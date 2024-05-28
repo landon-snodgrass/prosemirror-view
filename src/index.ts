@@ -199,9 +199,11 @@ export class EditorView {
         let chromeKludge = browser.chrome ? (this.trackWrites = this.domSelectionRange().focusNode) : null
         if (this.composing) this.input.compositionNode = findCompositionNode(this)
         if (redraw || !this.docView.update(state.doc, outerDeco, innerDeco, this)) {
-          this.docView.updateOuterDeco(outerDeco)
-          this.docView.destroy()
-          this.docView = docViewDesc(state.doc, outerDeco, innerDeco, this.dom, this)
+          if (this.docView) {
+            this.docView.updateOuterDeco(outerDeco)
+            this.docView.destroy()
+            this.docView = docViewDesc(state.doc, outerDeco, innerDeco, this.dom, this)
+          }
         }
         if (chromeKludge && !this.trackWrites) forceSelUpdate = true
       }
